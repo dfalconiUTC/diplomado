@@ -1,0 +1,60 @@
+.navbar-custom {
+    background-color: #144c93;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .navbar-nav .nav-link {
+    color: white !important;
+}
+
+.navbar-custom .nav-link:hover {
+    color: #cccccc !important;
+}
+
+.footer {
+    background-color: #144c93;
+    color: white;
+    padding: 40px 0;
+    text-align: center;
+}
+
+.hero-section {
+    background-color: #f8f9fa;
+    padding: 100px 0;
+    text-align: center;
+}
+
+.hero-section h1 {
+    font-size: 48px;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.hero-section p {
+    font-size: 18px;
+    color: #666666;
+    margin-bottom: 40px;
+}
+
+.features-section {
+    padding: 80px 0;
+}
+
+.feature-item {
+    margin-bottom: 40px;
+}
+
+.feature-item img {
+    max-width: 200px;
+    margin-bottom: 20px;
+}
+
+.feature-item h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.feature-item p {
+    font-size: 18px;
+    color: #666666;
+}
