@@ -1,0 +1,118 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Página de Inicio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- Estilos CSS personalizados -->
+    <style>
+        .navbar-custom {
+            background-color: #144c93 !important;
+        }
+
+        .navbar-custom .navbar-brand,
+        .navbar-custom .navbar-nav .nav-link {
+            color: white !important;
+        }
+
+        .navbar-custom .nav-link:hover {
+            color: #ccc !important;
+        }
+
+        .footer {
+            background-color: #144c93;
+            color: white;
+            padding: 20px 0;
+        }
+
+        /* Estilos para la imagen del logo */
+        .navbar-brand img {
+            max-width: 25%; /* La imagen se ajustará al tamaño máximo del contenedor */
+            height: auto; /* La altura se ajustará automáticamente según el ancho */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="admin/img/Logo_UTC_Azul.png" alt=""></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-4 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="login-docentes.html">Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido -->
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Sección de Acerca de -->
+            <div class="col-md-12 mb-5">
+                <h2 class="text-center">Acerca de</h2>
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut mauris nec quam
+                    iaculis
+                    finibus. Donec nec fringilla libero. Curabitur ultrices justo nec lacinia tempus.</p>
+            </div>
+            <!-- Sección de Desarrolladores -->
+            <div class="col-md-12 mb-5">
+                <h2 class="text-center">Desarrolladores</h2>
+                <div class="row justify-content-center">
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <img src="developer1.jpg" class="card-img-top" alt="Desarrollador 1">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre del Desarrollador 1</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-3">
+                            <img src="developer2.jpg" class="card-img-top" alt="Desarrollador 2">
+                            <div class="card-body">
+                                <h5 class="card-title">Nombre del Desarrollador 2</h5>
+                                <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Sección de Reglas del Juego -->
+            <div class="col-md-12">
+                <h2 class="text-center">Reglas del Juego</h2>
+                <p class="text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ut mauris nec quam
+                    iaculis
+                    finibus. Donec nec fringilla libero. Curabitur ultrices justo nec lacinia tempus.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer text-center">
+        <div class="container">
+            <p>© 2024 Tu Empresa - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>
