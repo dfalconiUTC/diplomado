@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mx-auto">
+                <div class="card card-form">
+                    <div class="card-body">
+                        <h5 class="card-title text-center mb-4">Iniciar Sesión</h5>
+                        <form id="inicioForm">
+                            <div class="mb-3">
+                                <label for="nombre" class="form-label">Nombre:</label>
+                                <input type="text" class="form-control" id="nombre" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="apodo" class="form-label">Apodo:</label>
+                                <input type="text" class="form-control" id="apodo">
+                            </div>
+                            <div class="mb-3">
+                                <label for="codigoJuego" class="form-label">Código del Juego:</label>
+                                <input type="text" class="form-control" id="codigoJuego" readonly>
+                            </div>
+                            <button type="submit" class="btn btn-primary w-100">Ingresar</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+        crossorigin="anonymous"></script>
+
+
+    <script type="module">
+        // Importar módulos de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        let cuestionario = {};
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkZC_v6UiPHeZ1FmTNsaFqMlahedK4ezA",
+            authDomain: "diplomado-956d0.firebaseapp.com",
+            projectId: "diplomado-956d0",
+            storageBucket: "diplomado-956d0.appspot.com",
+            messagingSenderId: "124943503518",
+            appId: "1:124943503518:web:7fffc37563641c1e83ab8f",
+            measurementId: "G-PGZ4P7JX9L"
+        };
+
+        // Inicializar la aplicación de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore();
+
+        // Función para obtener el código del juego desde la URL
+        function obtenerCodigoJuego() {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get('codigoJuego');
+        }
+
+        // Función para obtener las preguntas desde Firestore
+        async function obtenerPreguntas(codigoJuego) {
+            const preguntasCollection = collection(db, "preguntas");
+            const q = query(preguntasCollection, where("code", "==", codigoJuego));
+            const preguntasSnapshot = await getDocs(q);
+            const preguntas = [];
+            preguntasSnapshot.forEach((doc) => {
+                preguntas.push(doc.data());
+            });
+            return preguntas;
+        }
+
+        // Función principal para iniciar la consulta
+        async function iniciarConsulta() {
+            const codigoJuego = obtenerCodigoJuego();
+            if (!codigoJuego) {
+                // Si no se proporciona el código del juego en la URL
+                console.error("Error: No se proporcionó el código del juego en la URL");
+                return;
+            }
+
+            // Realizar la consulta a Firestore
+            const preguntas = await obtenerPreguntas(codigoJuego);
+            if (preguntas.length === 0) {
+                // Si no se encuentra ninguna pregunta asociada al código del juego, redirigir a index.html con un error
+                window.location.href = "index.html?error=no_questions";
+                return;
+            }
+            cuestionario = preguntas;
+            // Establecer el valor del código del juego en el campo de entrada
+            const codigoJuegoInput = document.getElementById("codigoJuego");
+            codigoJuegoInput.value = codigoJuego;
+            console.log("Resultado de la consulta:", preguntas);
+        }
+
+        // Llama a la función para iniciar la consulta cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            iniciarConsulta();
+        });
+
+
+        // Dentro del evento de envío del formulario
+        inicioForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const nombre = document.getElementById("nombre").value.trim();
+            const apodo = document.getElementById("apodo").value.trim();
+            const codigoJuego = document.getElementById("codigoJuego").value.trim();
+            // Almacenar datos en localStorage
+            localStorage.setItem("nombre", nombre);
+            localStorage.setItem("apodo", apodo);
+            localStorage.setItem("codigoJuego", codigoJuego);
+            localStorage.setItem("preguntas", JSON.stringify(cuestionario));
+
+            // Redirigir a la siguiente página
+            window.location.href = "game/index.html";
+
+        });
+
+    </script>
+</body>
+
+</html>

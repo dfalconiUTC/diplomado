@@ -10,7 +10,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <!-- Estilos CSS personalizados -->
-    
+
     <!--<style>
         .navbar-custom {
             background-color: #144c93;
@@ -199,10 +199,42 @@
         </div>
     </div>
 
+
     <!-- Bootstrap Bundle with Popper -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
         crossorigin="anonymous"></script>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const ingresarBtn = document.querySelector("#gameCodeModal .modal-footer button");
+
+            // Agregar evento de clic al botón "Ingresar"
+            ingresarBtn.addEventListener("click", function () {
+                // Obtener el valor del código de juego ingresado
+                const codigoJuego = document.querySelector("#gameCodeModal input").value.trim();
+
+                // Verificar si se ingresó un código de juego válido
+                if (codigoJuego) {
+                    // Redirigir a otro HTML donde esté el formulario
+                    window.location.href = "inicio.html?codigoJuego=" + codigoJuego;
+                } else {
+                    // Si no se ingresó ningún código, puedes mostrar un mensaje de error o tomar otra acción
+                    alert("Por favor, ingresa un código de juego válido.");
+                }
+            });
+        });
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const urlParams = new URLSearchParams(window.location.search);
+            const errorParam = urlParams.get('error');
+            if (errorParam === 'no_questions') {
+                alert("Por favor, ingresa un código de juego válido.");
+            }
+        });
+    </script>
+
 </body>
 
 </html>

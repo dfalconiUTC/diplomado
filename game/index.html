@@ -14,9 +14,9 @@
 
 
     <audio src="medios/sonidos/Quien quiere ser millonario INICIO.mp3" id="inicio" autoplay loop></audio>
-    <audio src="medios/sonidos/respuesta correcta.mp3" id="m_correcto" ></audio>
-    <audio src="medios/sonidos/respuesta incorrecta.mp3" id="m_perdiste" ></audio>
-   
+    <audio src="medios/sonidos/respuesta correcta.mp3" id="m_correcto"></audio>
+    <audio src="medios/sonidos/respuesta incorrecta.mp3" id="m_perdiste"></audio>
+
     <audio src="medios/sonidos/press_buttom.mp3" id="boton"></audio>
 
     <div class="informacion nomostrar" id="informacion">
@@ -31,7 +31,7 @@
     </div>
 
     <div class="ventana" id="ventana">
-        
+
 
         <div class="llamar" id="llamar">
             <i class="icon-cool2"></i>
@@ -42,21 +42,21 @@
         <div class="audiencia" id="audiencia">
             <i class="icon-users"></i>
             <p>La audiencia opina que:</p>
-            <span>A) <progress class="progreso" max="100" value="10" ></progress></span>
-            <span>B) <progress class="progreso" max="100" value="10" ></progress></span>
-            <span>C) <progress class="progreso" max="100" value="10" ></progress></span>
-            <span>D) <progress class="progreso" max="100" value="10" ></progress> </span>
-        </div>  
+            <span>A) <progress class="progreso" max="100" value="10"></progress></span>
+            <span>B) <progress class="progreso" max="100" value="10"></progress></span>
+            <span>C) <progress class="progreso" max="100" value="10"></progress></span>
+            <span>D) <progress class="progreso" max="100" value="10"></progress> </span>
+        </div>
 
         <div class="correcta" id="resp_correcta">
             <i class="icon-checkmark"></i>
             <p>¡RESPUESTA CORRECTA!</p>
             <p id="pasaste"> </p>
-            
+
         </div>
 
         <i class="seguir" id="seguir">Continuar</i>
-    
+
     </div>
 
     <div class="ventana ventana2" id="ventana2">
@@ -74,8 +74,9 @@
             </div>
 
             <div>
-                
-                <a href="#" class="btn dinero"  title="Ganancias acumuladas cada vez se superan 5 niveles de juego">$<span id="dinero">0</span></a>
+
+                <a href="#" class="btn dinero"
+                    title="Ganancias acumuladas cada vez se superan 5 niveles de juego">$<span id="dinero">0</span></a>
                 <a href="#" class="btn silenciar icon-volume-high" id="silenciar" title="Silenciar"></a>
             </div>
         </div>
@@ -92,36 +93,48 @@
                     </span>
                     <div class="comodin" id="comodin">
                         <i class="icon-phone comodines" title="Llamar a un amigo"></i>
-                        <i class="icon-users comodines" title="Acudir a la audiencia" ></i>
+                        <i class="icon-users comodines" title="Acudir a la audiencia"></i>
                         <i class="mitad comodines" title="50/50">50</i>
-                        
+
 
                     </div>
 
-                    
+
                 </div>
 
                 <div class="cont_pregunta">
-                    
-                    <div class="preg_borde"><div class="preg" id="preg"><p>PREGUNTA</p></div></div>
+
+                    <div class="preg_borde">
+                        <div class="preg" id="preg">
+                            <p>PREGUNTA</p>
+                        </div>
+                    </div>
 
                     <div class="respuestas">
                         <div class="resp_borde">
-                            <div class="resp"><span>A- </span><p class="respuesta"></p></div>
+                            <div class="resp"><span>A- </span>
+                                <p class="respuesta"></p>
+                            </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>B- </span><p class="respuesta"></p></div>
+                            <div class="resp"><span>B- </span>
+                                <p class="respuesta"></p>
+                            </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>C- </span><p class="respuesta"></p></div>
+                            <div class="resp"><span>C- </span>
+                                <p class="respuesta"></p>
+                            </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>D- </span><p class="respuesta"></p></div>
+                            <div class="resp"><span>D- </span>
+                                <p class="respuesta"></p>
+                            </div>
                         </div>
-                        
+
                     </div>
 
-                    
+
 
                 </div>
 
@@ -135,19 +148,30 @@
         </div>
     </div>
 
-    
+
 
 
 
     </div>
 
+    <script>
+        // Dentro de la función para iniciar la consulta en la siguiente página
+        document.addEventListener("DOMContentLoaded", () => {
+            const nombre = localStorage.getItem("nombre");
+            const apodo = localStorage.getItem("apodo");
+            const codigoJuego = localStorage.getItem("codigoJuego");
+            const preguntas = JSON.parse(localStorage.getItem("preguntas"));
+            console.log(nombre,apodo,codigoJuego,preguntas);
+            // Hacer algo con los datos recuperados
+        });
+
+    </script>
+    
     <script src="js/variable.js"></script>
     <script src="js/main.js"></script>
     <script src="js/preg.js"></script>
 
 
-
-    </script>
 </body>
 
 </html>
