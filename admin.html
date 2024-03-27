@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <link rel="stylesheet" href="admin/css/styles.css">
+    <link rel="stylesheet" href="admin/css/admin.css">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="admin/img/Logo_UTC_Azul.png" alt="UTC Game Logo" width="150"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- Opción de menú -->
+                        <a class="nav-link" href="#" id="logout">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <center>
+        <h3><span class="nav-link">Usuario: <span id="userName"></span></span></h3>
+    </center>
+    <center>
+        <h5><span class="nav-link">A continuación se detallan tus juegos</span></h5>
+    </center>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-3" onmouseover="darkenImage(this)" onmouseout="resetImage(this)">
+                    <div class="card-header text-center bg-success text-white">Crear Nuevo Juego</div>
+                    <div class="card-body">
+                        <img src="game/medios/img/logo.png" alt="Imagen 1" width="100%">
+                        <div class="options">
+                            <button class="btn btn-outline-success btn-sm mx-1">Crear nuevo juego</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <div class="card mb-3" onmouseover="darkenImage(this)" onmouseout="resetImage(this)">
+                    <div class="card-header text-center bg-primary text-white">Juego Anterior 1</div>
+                    <div class="card-body">
+                        <img src="game/medios/img/logo.png" alt="Imagen 2" width="100%">
+                        <div class="options">
+                            <button class="btn btn-outline-primary btn-sm mx-1">Editar</button>
+                            <button class="btn btn-outline-primary btn-sm mx-1">Ver Informe</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- Firebase Config -->
+    <script type="module">
+        // Importa el módulo de autenticación de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkZC_v6UiPHeZ1FmTNsaFqMlahedK4ezA",
+            authDomain: "diplomado-956d0.firebaseapp.com",
+            projectId: "diplomado-956d0",
+            storageBucket: "diplomado-956d0.appspot.com",
+            messagingSenderId: "124943503518",
+            appId: "1:124943503518:web:7fffc37563641c1e83ab8f",
+            measurementId: "G-PGZ4P7JX9L"
+        };
+
+        // Inicializa la aplicación de Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escucha los cambios de estado de autenticación
+            onAuthStateChanged(getAuth(), (user) => {
+                if (user) {
+                    // Si el usuario está autenticado
+                    // Mostrar la información del usuario
+                    document.getElementById("userName").innerText = user.displayName || "N/A";
+                    //document.getElementById("userEmail").innerText = user.email || "N/A";
+                } else {
+                    // Si el usuario no está autenticado, redirigir al inicio de sesión
+                    window.location.href = "index.html";
+                }
+            });
+        });
+
+        // Cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escucha los cambios de estado de autenticación
+            onAuthStateChanged(getAuth(), (user) => {
+                if (user) {
+                    // Si el usuario está autenticado
+                    // Mostrar la información del usuario
+                    document.getElementById("userName").innerText = user.displayName || "N/A";
+
+                    // Agregar evento de clic al enlace de cerrar sesión
+                    document.getElementById("logout").addEventListener("click", () => {
+                        // Cerrar sesión
+                        getAuth().signOut().then(() => {
+                            // Redirigir a la página principal después de cerrar sesión
+                            window.location.href = "index.html";
+                        }).catch((error) => {
+                            console.error("Error al cerrar sesión:", error);
+                        });
+                    });
+                } else {
+                    // Si el usuario no está autenticado, redirigir al inicio de sesión
+                    window.location.href = "index.html";
+                }
+            });
+        });
+
+        // Función para oscurecer la imagen y el fondo de la tarjeta
+        function darkenImage(card) {
+            card.style.filter = "brightness(0%)";
+        }
+
+        // Función para restablecer la imagen y el fondo de la tarjeta
+        function resetImage(card) {
+            card.style.filter = "brightness(100%)";
+        }
+    </script>
+
+    <!-- Bootstrap JS y dependencias -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+
+</html>

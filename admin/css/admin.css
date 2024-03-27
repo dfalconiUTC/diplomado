@@ -1,0 +1,28 @@
+.navbar-nav {
+    margin-left: auto;
+}
+
+.card-body {
+    position: relative;
+}
+
+.options {
+    display: none;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.card-body:hover .options {
+    display: block;
+}
+
+.card-body:hover img {
+    opacity: 0.1;
+}
+
+.card-body img {
+    transition: opacity 0.2s ease-in-out;
+}

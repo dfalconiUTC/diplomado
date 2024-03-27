@@ -117,6 +117,7 @@
                     const user = result.user;
                     console.log("Usuario autenticado con Google:", user);
                     // Aquí puedes redirigir al usuario a otra página o realizar otras acciones
+                    window.location.href = "admin.html";
                 })
                 .catch((error) => {
                     // Error al iniciar sesión con Google
@@ -140,6 +141,7 @@
                     const user = userCredential.user;
                     console.log("Usuario autenticado con correo electrónico y contraseña:", user);
                     // Aquí puedes redirigir al usuario a otra página o realizar otras acciones
+                    window.location.href = "admin.html";
                 })
                 .catch((error) => {
                     // Error al iniciar sesión con correo electrónico y contraseña
