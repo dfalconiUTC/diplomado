@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Juego</title>
+    <link rel="stylesheet" href="admin/css/styles.css">
+    <link rel="stylesheet" href="admin/css/admin.css">
+    <link rel="stylesheet" href="admin/css/game.css">
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Estilos personalizados -->
+    <style>
+        .incomplete-card {
+            border: 2px solid red;
+            /* Cambiar el borde a rojo para resaltar */
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="admin/img/Logo_UTC_Azul.png" alt="UTC Game Logo" width="150"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- Opción de menú -->
+                        <a class="nav-link" href="#" id="logout">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <center>
+            <h3 class="mt-5">Crear Nuevo Juego</h3>
+        </center>
+        <div class="card2 mt-3">
+            <p class="text-justify">Hola, bienvenido a la creación de juegos para la evaluación de conocimientos, por
+                favor llena las 15
+                preguntas que se te dan a continuación, el orden de las preguntas y opciones al momento del presentar la
+                evaluación a los estudiantes será aleatorio, así que llena el formulario con el orden que desees. Debes
+                seleccionar la respuesta que sea correcta, debe ser solo una opción, las demás serán distractores.</p>
+            <p class="text-justify">Diviértete enseñando!!!...</p>
+        </div>
+        <div class="card3 mt-3">
+            <form>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <label for="nombre">Nombre de la lección:</label>
+                            <input type="text" class="form-control" placeholder="Nombre de la lección" required>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card mt-3">
+            <div class="card-header bg-warning">Pregunta 1</div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Pregunta 1" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1CorrectOption" value="1" required>
+                            <input type="text" class="form-control" placeholder="Opción 1" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1CorrectOption" value="2" required>
+                            <input type="text" class="form-control" placeholder="Opción 2" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1CorrectOption" value="3" required>
+                            <input type="text" class="form-control" placeholder="Opción 3" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q1CorrectOption" value="4" required>
+                            <input type="text" class="form-control" placeholder="Opción 4" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="card-header bg-warning">Pregunta 2</div>
+            <div class="card-body">
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Pregunta 2" required>
+                    </div>
+                    <div class="form-group">
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2CorrectOption" value="1" required>
+                            <input type="text" class="form-control" placeholder="Opción 1" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2CorrectOption" value="2" required>
+                            <input type="text" class="form-control" placeholder="Opción 2" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2CorrectOption" value="3" required>
+                            <input type="text" class="form-control" placeholder="Opción 3" required>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="radio" name="q2CorrectOption" value="4" required>
+                            <input type="text" class="form-control" placeholder="Opción 4" required>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <center><button type="button" class="btn btn-info mt-3" id="storeButton">Guardar Preguntas</button></center>
+    <br>
+    <br>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>© 2024 UTC Game - Todos los derechos reservados</p>
+        </div>
+    </footer>
+
+    <div class="modal fade" id="errorModal" tabindex="-1" role="dialog" aria-labelledby="errorModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title" id="errorModalLabel">Error</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Por favor, responde todas las preguntas y marca una opción como correcta antes de almacenar.
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("storeButton").addEventListener("click", function () {
+                var questions = document.querySelectorAll(".card");
+                var allAnswered = true;
+                questions.forEach(function (question) {
+                    var answered = question.querySelector("input[type='text']:valid");
+                    if (!answered) {
+                        question.classList.add("incomplete-card");
+                        allAnswered = false;
+                    } else {
+                        question.classList.remove("incomplete-card");
+                    }
+
+                    var radios = question.querySelectorAll("input[type='radio']");
+                    var radioChecked = false; // Variable para rastrear si algún radio está marcado
+
+                    radios.forEach(function (radio) {
+                        if (radio.checked) {
+                            radioChecked = true;
+                        }
+                    });
+
+                    if (!radioChecked) {
+                        question.classList.add("incomplete-card");
+                        allAnswered = false;
+                    } else {
+                        question.classList.remove("incomplete-card");
+                    }
+                });
+
+                var questions1 = document.querySelectorAll(".card3");
+
+                questions1.forEach(function (question) {
+                    var answered = question.querySelector("input[type='text']:valid");
+                    if (!answered) {
+                        question.classList.add("incomplete-card");
+                        allAnswered = false;
+                    } else {
+                        question.classList.remove("incomplete-card");
+                    }
+                });
+
+                if (!allAnswered) {
+                    //alert("Por favor, responde todas las preguntas y marca una opción como correcta antes de almacenar.");
+                    $('#errorModal').modal('show');
+                } else {
+                    alert("Todas las preguntas han sido respondidas y tienen una opción marcada como correcta. ¡Puedes almacenarlas!");
+                }
+            });
+        });
+    </script>
+
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="module">
+        // Importa el módulo de autenticación de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+        // Tu configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkZC_v6UiPHeZ1FmTNsaFqMlahedK4ezA",
+            authDomain: "diplomado-956d0.firebaseapp.com",
+            projectId: "diplomado-956d0",
+            storageBucket: "diplomado-956d0.appspot.com",
+            messagingSenderId: "124943503518",
+            appId: "1:124943503518:web:7fffc37563641c1e83ab8f",
+            measurementId: "G-PGZ4P7JX9L"
+        };
+
+        // Inicializa la aplicación de Firebase
+        const app = initializeApp(firebaseConfig);
+
+        // Cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escucha los cambios de estado de autenticación
+            onAuthStateChanged(getAuth(), (user) => {
+                if (user) {
+                    // Si el usuario está autenticado
+                    // Mostrar la información del usuario
+                    //document.getElementById("userEmail").innerText = user.email || "N/A";
+                } else {
+                    // Si el usuario no está autenticado, redirigir al inicio de sesión
+                    window.location.href = "index.html";
+                }
+            });
+        });
+
+        // Cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escucha los cambios de estado de autenticación
+            onAuthStateChanged(getAuth(), (user) => {
+                if (user) {
+                    // Si el usuario está autenticado
+                    // Mostrar la información del usuario
+
+                    // Agregar evento de clic al enlace de cerrar sesión
+                    document.getElementById("logout").addEventListener("click", () => {
+                        // Cerrar sesión
+                        getAuth().signOut().then(() => {
+                            // Redirigir a la página principal después de cerrar sesión
+                            window.location.href = "index.html";
+                        }).catch((error) => {
+                            console.error("Error al cerrar sesión:", error);
+                        });
+                    });
+                } else {
+                    // Si el usuario no está autenticado, redirigir al inicio de sesión
+                    window.location.href = "index.html";
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>
