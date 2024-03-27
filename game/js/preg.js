@@ -16,7 +16,7 @@ class preg{
 
 
 // Definición de preguntas
-const preguntasCompletas = [
+/*const preguntasCompletas = [
     new preg("¿Qué significa HTML?", "HyperText Markup Language", "HyperTool Markup Language", "Home Tool Markup Language", "HyperText Markup Leveler"),
     new preg("¿Cuál es el lenguaje de programación más utilizado en el desarrollo web?", "JavaScript", "Python", "Java", "C#"),
     new preg("¿Qué significa CSS?", "Cascading Style Sheets", "Creative Style Sheets", "Computer Style Sheets", "Colorful Style Sheets"),
@@ -47,13 +47,29 @@ const preguntasCompletas = [
     new preg("¿Qué es 'HTTPS'?", "Hypertext Transfer Protocol Secure", "Hypertext Transformation Protocol Secure", "Hyperlink Text Transfer Protocol Secure", "Hypertext Testing Protocol Secure"),
     new preg("¿Qué es 'SSL'?", "Secure Sockets Layer", "Simple Secure Layer", "Secure Server Layer", "Simple Server Layer"),
     new preg("¿Qué hace la función 'fetch()' en JavaScript?", "Realiza una solicitud HTTP", "Crea un nuevo elemento HTML", "Agrega un elemento al final de un array", "Convierte una cadena de texto a un entero")
-];
+];*/
 
 // Seleccionar 15 preguntas aleatorias
 function seleccionarPreguntasAleatorias(preguntas, cantidad) {
     const preguntasAleatorias = preguntas.sort(() => Math.random() - 0.5);
     return preguntasAleatorias.slice(0, cantidad);
 }
+
+
+// Obtener preguntas del JSON almacenado en la variable preguntas
+// Obtener preguntas del JSON almacenado en la variable preguntas
+const preguntas1 = JSON.parse(localStorage.getItem("preguntas"));
+const preguntasJSON = preguntas1.cuestionario;
+// Crear objetos preg a partir de las preguntas del JSON
+const preguntasCompletas = preguntasJSON.map(pregunta => {
+    return new preg(pregunta.pregunta[0], pregunta.pregunta[1], pregunta.pregunta[2], pregunta.pregunta[3], pregunta.pregunta[4]);
+});
+
+//console.log(preguntasCompletas);
+// Seleccionar 15 preguntas aleatorias de las preguntas creadas
+const preguntasSeleccionadas = seleccionarPreguntasAleatorias(preguntasCompletas, 15);
+//console.log(preguntasSeleccionadas);
+
 
 preguntas = seleccionarPreguntasAleatorias(preguntasCompletas, 15);
 console.log(preguntas);
@@ -215,7 +231,9 @@ rendirse.onclick=()=>{
 }
 
 terminar.onclick=()=>{ //Una vez termina el juego se recarga la pagina y vuelve al inicio
-    location.reload();
+    //location.reload();
+    window.location.href = "../index.html";
+
 }
 
 
