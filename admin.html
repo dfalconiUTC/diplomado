@@ -42,33 +42,31 @@
     </center>
     <br>
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-header text-center bg-success text-white">Crear Nuevo Juego</div>
-                    <div class="card-body">
-                        <img src="game/medios/img/logo.png" alt="Imagen 1" width="100%">
-                        <div class="options">
-                            <a href="crear_juego.html" class="btn btn-outline-success btn-sm mx-1">Crear nuevo juego</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card mb-3">
-                    <div class="card-header text-center bg-primary text-white">Juego Anterior 1</div>
-                    <div class="card-body">
-                        <img src="game/medios/img/logo.png" alt="Imagen 2" width="100%">
-                        <div class="options">
-                            <button class="btn btn-outline-primary btn-sm mx-1">Editar</button>
-                            <button class="btn btn-outline-primary btn-sm mx-1">Ver Informe</button>
+                <div class="d-flex justify-content-center"> <!-- Nuevo contenedor centrado -->
+                    <div class="card mb-3">
+                        <div class="card-header text-center bg-success text-white">Crear Nuevo Juego</div>
+                        <div class="card-body">
+                            <img src="game/medios/img/logo.png" alt="Imagen 1" width="100%">
+                            <div class="options">
+                                <a href="crear_juego.html" class="btn btn-outline-success btn-sm mx-1">Crear nuevo
+                                    juego</a>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <hr>
+        <center><h5><span class="nav-link">Juegos Antiguos</span></h5></center>
+        <hr>
+        <div id="preguntasContainer" class="row">
+            
+        </div>
     </div>
+
+
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
@@ -79,6 +77,7 @@
         // Importa el módulo de autenticación de Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
 
         // Tu configuración de Firebase
         const firebaseConfig = {
@@ -93,6 +92,7 @@
 
         // Inicializa la aplicación de Firebase
         const app = initializeApp(firebaseConfig);
+        const db = getFirestore();
 
         // Cuando la página se carga completamente
         document.addEventListener("DOMContentLoaded", () => {
@@ -134,6 +134,48 @@
                     window.location.href = "index.html";
                 }
             });
+        });
+
+
+        // Función para obtener las preguntas desde Firestore
+        async function obtenerPreguntas() {
+            const preguntasCollection = collection(db, "preguntas");
+            const preguntasSnapshot = await getDocs(preguntasCollection);
+            const preguntas = [];
+            preguntasSnapshot.forEach((doc) => {
+                preguntas.push(doc.data());
+            });
+            return preguntas;
+        }
+
+
+        // Función para mostrar las preguntas en la página
+        async function mostrarPreguntas() {
+            const preguntas = await obtenerPreguntas();
+            const container = document.getElementById("preguntasContainer");
+            container.innerHTML = ""; // Limpiar el contenedor antes de agregar nuevos elementos
+            preguntas.forEach((pregunta) => {
+                const card = document.createElement("div");
+                card.classList.add("col-md-4");
+                card.innerHTML = `
+                <div class="card mb-3">
+                    <div class="card-header text-center bg-primary text-white">${pregunta.nombre}</div>
+                    <div class="card-body">
+                        <center><h3>Código: ${pregunta.code}</h3></center>
+                        <img src="game/medios/img/logo.png" alt="Imagen de la pregunta" width="100%">
+                        <div class="options">
+                            <button class="btn btn-outline-primary btn-sm mx-1">Editar</button>
+                            <button class="btn btn-outline-primary btn-sm mx-1">Ver Informe</button>
+                        </div>
+                    </div>
+                </div>`;
+                container.appendChild(card);
+            });
+        }
+
+        // Llama a la función para mostrar las preguntas cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            mostrarPreguntas();
         });
     </script>
 

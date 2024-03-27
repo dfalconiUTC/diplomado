@@ -59,7 +59,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <label for="nombre">Nombre de la lección:</label>
-                            <input type="text" class="form-control" placeholder="Nombre de la lección" required>
+                            <input type="text" class="form-control" placeholder="Nombre de la lección" id="nombre" required>
                         </div>
                     </div>
                 </div>
@@ -152,59 +152,28 @@
             </div>
         </div>
     </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("storeButton").addEventListener("click", function () {
-                var questions = document.querySelectorAll(".card");
-                var allAnswered = true;
-                questions.forEach(function (question) {
-                    var answered = question.querySelector("input[type='text']:valid");
-                    if (!answered) {
-                        question.classList.add("incomplete-card");
-                        allAnswered = false;
-                    } else {
-                        question.classList.remove("incomplete-card");
-                    }
-
-                    var radios = question.querySelectorAll("input[type='radio']");
-                    var radioChecked = false; // Variable para rastrear si algún radio está marcado
-
-                    radios.forEach(function (radio) {
-                        if (radio.checked) {
-                            radioChecked = true;
-                        }
-                    });
-
-                    if (!radioChecked) {
-                        question.classList.add("incomplete-card");
-                        allAnswered = false;
-                    } else {
-                        question.classList.remove("incomplete-card");
-                    }
-                });
-
-                var questions1 = document.querySelectorAll(".card3");
-
-                questions1.forEach(function (question) {
-                    var answered = question.querySelector("input[type='text']:valid");
-                    if (!answered) {
-                        question.classList.add("incomplete-card");
-                        allAnswered = false;
-                    } else {
-                        question.classList.remove("incomplete-card");
-                    }
-                });
-
-                if (!allAnswered) {
-                    //alert("Por favor, responde todas las preguntas y marca una opción como correcta antes de almacenar.");
-                    $('#errorModal').modal('show');
-                } else {
-                    alert("Todas las preguntas han sido respondidas y tienen una opción marcada como correcta. ¡Puedes almacenarlas!");
-                }
-            });
-        });
-    </script>
+    <!-- Agrega este modal al final de tu HTML -->
+    <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header bg-info">
+                    <h5 class="modal-title" id="successModalLabel">Datos almacenados correctamente</h5>
+                </div>
+                <div class="modal-body">
+                    <p>El código generado para compartir es:
+                        <center>
+                            <h1 id="generatedCode"></h1>
+                        </center>
+                    </p>
+                    <center><button class="btn btn-primary" id="copyButton">Copiar código</button></center>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-secondary" href="admin.html">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 
     <!-- Bootstrap JS -->
@@ -215,6 +184,8 @@
         // Importa el módulo de autenticación de Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+        let uniqueCode = "";
 
         // Tu configuración de Firebase
         const firebaseConfig = {
@@ -229,6 +200,8 @@
 
         // Inicializa la aplicación de Firebase
         const app = initializeApp(firebaseConfig);
+        // Obtén una referencia a tu base de datos de Firestore
+        const db = getFirestore();
 
         // Cuando la página se carga completamente
         document.addEventListener("DOMContentLoaded", () => {
@@ -267,6 +240,119 @@
                     // Si el usuario no está autenticado, redirigir al inicio de sesión
                     window.location.href = "index.html";
                 }
+            });
+        });
+
+        // Función para copiar el código generado al portapapeles
+        function copyToClipboard(text) {
+            console.log(text);
+            navigator.clipboard.writeText(text);
+        }
+
+        function showModalWithCode(code) {
+            document.getElementById('generatedCode').innerText = code;
+            $('#successModal').modal('show');
+        }
+
+        // Función para almacenar los datos en Firestore
+        async function storeDataInFirestore(data) {
+            try {
+                // Agrega los datos a la colección "preguntas" en tu base de datos
+                await addDoc(collection(db, "preguntas"), data);
+                console.log("Datos almacenados en Firestore correctamente.");
+                return true;
+            } catch (error) {
+                console.error("Error al almacenar datos en Firestore:", error);
+                return false;
+            }
+        }
+
+        function generateUniqueCode() {
+            // Generar un código aleatorio de 5 caracteres alfanuméricos
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            var code = '';
+            for (var i = 0; i < 5; i++) {
+                code += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return code;
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("storeButton").addEventListener("click", function () {
+                var questions = document.querySelectorAll(".card");
+                var allAnswered = true;
+                var preguntasDiccionario = [];
+
+                questions.forEach(function (question) {
+                    var preguntaInput = question.querySelector("input[type='text']");
+                    var radios = question.querySelectorAll("input[type='radio']");
+                    var radioChecked = false;
+                    var respuestaCorrecta = '';
+                    var respuestasIncorrectas = [];
+
+                    radios.forEach(function (radio) {
+                        if (radio.checked) {
+                            radioChecked = true;
+                            respuestaCorrecta = radio.nextElementSibling.value;
+                        } else {
+                            respuestasIncorrectas.push(radio.nextElementSibling.value);
+                        }
+                    });
+
+                    if (!preguntaInput.value || !radioChecked) {
+                        question.classList.add("incomplete-card");
+                        allAnswered = false;
+                    } else {
+                        question.classList.remove("incomplete-card");
+                        preguntasDiccionario.push({
+                            pregunta: preguntaInput.value,
+                            respuestaCorrecta: respuestaCorrecta,
+                            respuestasIncorrectas: respuestasIncorrectas
+                        });
+                    }
+                });
+
+                var questions1 = document.querySelectorAll(".card3");
+
+                questions1.forEach(function (question) {
+                    var answered = question.querySelector("input[type='text']:valid");
+                    if (!answered) {
+                        question.classList.add("incomplete-card");
+                        allAnswered = false;
+                    } else {
+                        question.classList.remove("incomplete-card");
+                    }
+                });
+
+                if (!allAnswered) {
+                    //alert("Por favor, responde todas las preguntas y marca una opción como correcta antes de almacenar.");
+                    $('#errorModal').modal('show');
+                } else {
+                    var data = preguntasDiccionario.map(e => {
+
+                        return {
+                            pregunta: [e.pregunta, e.respuestaCorrecta, e.respuestasIncorrectas[0], e.respuestasIncorrectas[1], e.respuestasIncorrectas[2]],
+                        };
+                    });
+
+                    const code = generateUniqueCode();
+                    const evaluacion = {
+                        cuestionario: data,
+                        code,
+                        nombre: document.getElementById("nombre").value,
+                    }
+                    uniqueCode = code;
+                    console.log(evaluacion);
+                    if (storeDataInFirestore(evaluacion)) {
+                        showModalWithCode(code);
+                    }
+                }
+            });
+
+
+            // Configurar el botón para copiar el código
+            document.getElementById("copyButton").addEventListener("click", function () {
+                copyToClipboard(uniqueCode);
             });
         });
     </script>
