@@ -44,7 +44,7 @@
     <div class="container">
         <div class="row">
             <div class="col-md-4">
-                <div class="card mb-3" onmouseover="darkenImage(this)" onmouseout="resetImage(this)">
+                <div class="card mb-3">
                     <div class="card-header text-center bg-success text-white">Crear Nuevo Juego</div>
                     <div class="card-body">
                         <img src="game/medios/img/logo.png" alt="Imagen 1" width="100%">
@@ -56,7 +56,7 @@
             </div>
 
             <div class="col-md-4">
-                <div class="card mb-3" onmouseover="darkenImage(this)" onmouseout="resetImage(this)">
+                <div class="card mb-3">
                     <div class="card-header text-center bg-primary text-white">Juego Anterior 1</div>
                     <div class="card-body">
                         <img src="game/medios/img/logo.png" alt="Imagen 2" width="100%">
@@ -135,16 +135,6 @@
                 }
             });
         });
-
-        // Función para oscurecer la imagen y el fondo de la tarjeta
-        function darkenImage(card) {
-            card.style.filter = "brightness(0%)";
-        }
-
-        // Función para restablecer la imagen y el fondo de la tarjeta
-        function resetImage(card) {
-            card.style.filter = "brightness(100%)";
-        }
     </script>
 
     <!-- Bootstrap JS y dependencias -->
