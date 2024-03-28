@@ -44,7 +44,7 @@
                         <th>Nombre</th>
                         <th>Apodo</th>
                         <th>Nivel</th>
-                        <th>Aprobación</th>
+                        <!--<th>Aprobación</th>-->
                         <th>Detalles</th>
                     </tr>
                 </thead>
@@ -110,7 +110,7 @@
         const app = initializeApp(firebaseConfig);
         const db = getFirestore();
 
-        
+
 
         // Cuando la página se carga completamente
         document.addEventListener("DOMContentLoaded", () => {
@@ -175,12 +175,13 @@
                     <tr>
                         <td>${data.nombre}</td>
                         <td>${data.apodo}</td>
-                        <td>${data.preguntas ? data.preguntas.length - 1 : 0}</td>
-                        <td class="${data.aprueba ? 'aprobado' : 'reprobado'}">${data.aprueba ? 'Ganó' : 'Perdió'}</td>
-                        <td><button class="btn btn-primary" onclick="mostrarDetalles(${i})">Ver Detalles</button></td>
-                    </tr>
-                    <tr id="detalle-${i}" style="display: none;">
-                        <td colspan="5">
+                        <td>${data.preguntas ? data.preguntas.length : 0}</td>
+                        <!--<td class="${data.aprueba ? 'aprobado' : 'reprobado'}">${data.aprueba ? 'Ganó' : 'Perdió'}</td>-->
+                        <!--<td><button class="btn btn-primary" onclick="mostrarDetalles(${i})">Ver Detalles</button></td>-->
+                    <!--</tr>
+                    <tr id="detalle-${i}">-->
+                        <!--<<td colspan="4">-->
+                            <td>
                             <!-- Aquí van los detalles -->
                             ${renderDetalles(data)}
                         </td>
