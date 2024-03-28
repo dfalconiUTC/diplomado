@@ -1,16 +1,15 @@
-class preg{
-    constructor (p,resp,op1,op2,op3){
-        this.p=p;
-        this.resp=resp;
-        this.op1=op1;
-        this.op2=op2;
-        this.op3=op3;
-        
-    }    
+class preg {
+    constructor(p, resp, op1, op2, op3) {
+        this.p = p;
+        this.resp = resp;
+        this.op1 = op1;
+        this.op2 = op2;
+        this.op3 = op3;
 
-    op(){
-        
-        return [this.resp,this.op1,this.op2,this.op3].sort((a,b)=>Math.random()-0.5);
+    }
+
+    op() {
+        return [this.resp, this.op1, this.op2, this.op3].sort((a, b) => Math.random() - 0.5);
     }
 }
 
@@ -69,8 +68,6 @@ const preguntasCompletas = preguntasJSON.map(pregunta => {
 // Seleccionar 15 preguntas aleatorias de las preguntas creadas
 const preguntasSeleccionadas = seleccionarPreguntasAleatorias(preguntasCompletas, 15);
 //console.log(preguntasSeleccionadas);
-
-
 preguntas = seleccionarPreguntasAleatorias(preguntasCompletas, 15);
 console.log(preguntas);
 //console.log(preguntas2);
@@ -79,164 +76,137 @@ console.log(preguntas);
 
 
 //Funciones necesarias para el juego
-function aparecer_ventana(){//ventana de comoddines y mensajes
-    ventana.style.transform="scale(1)";
-    document.getElementById(identificacion).style.display="block";
+function aparecer_ventana() {//ventana de comoddines y mensajes
+    ventana.style.transform = "scale(1)";
+    document.getElementById(identificacion).style.display = "block";
     clearInterval(intrv);
-     
-   
-
 }
 
-btn_comodin.onclick= ()=>{
-    
-    ventana.style.transform="scale(0)";
-    document.getElementById(identificacion).style.display="none";
-      
-    if(identificacion=="resp_correcta"){
-        
-        cambiar_pregunta(preguntas[nivel].p,preguntas[nivel].op());
-        
+btn_comodin.onclick = () => {
+    ventana.style.transform = "scale(0)";
+    document.getElementById(identificacion).style.display = "none";
+    if (identificacion == "resp_correcta") {
+        cambiar_pregunta(preguntas[nivel].p, preguntas[nivel].op());
     }
-    temporizador();  
-        
+    temporizador();
 }
 
-function cambiar_pregunta(p,r){ //funcion para cambiar la pregunta p=pregunta r=array con las respuestas
-    pregunta.innerText=p;
-    
-    for (var i=0;i<4;i++) {
-        respuestas[i].innerText=r[i];
-    }          
-    
-    cont_tiempo=31;
-   
-    
-    
- 
- }
-
-function felicidades(){//Mensaje Ganador
-    ventana2.style.transform="scale(1)";
-    victoria.style.display="inline-block";
-    ganado.innerText=ganado.innerText + " " + dinero_ganado;
+function cambiar_pregunta(p, r) { //funcion para cambiar la pregunta p=pregunta r=array con las respuestas
+    pregunta.innerText = (nivel + 1) + ") " + p;
+    for (var i = 0; i < 4; i++) {
+        respuestas[i].innerText = r[i];
+    }
+    cont_tiempo = 31;
 }
 
-function perder(){//Mensaje Perdedor
+function felicidades() {//Mensaje Ganador
+    ventana2.style.transform = "scale(1)";
+    victoria.style.display = "inline-block";
+    ganado.innerText = ganado.innerText + " " + dinero_ganado;
+}
+
+function perder() {//Mensaje Perdedor
     if (sonar) {
         intro.muted = true;
         m_perdiste.play();
     }
-    ventana2.style.transform="scale(1)";
+    ventana2.style.transform = "scale(1)";
     clearInterval(intrv);
-    victoria.innerHTML ="¡Haz perdido! Intenta nuevamente";
-    victoria.style.display="inline-block";
-    document.getElementById("img_vent").setAttribute("src","medios/img/perder.jpg");
-    ganado.innerText=ganado.innerText + " " + dinero_ganado;
-
+    victoria.innerHTML = "¡Haz perdido! Intenta nuevamente";
+    victoria.style.display = "inline-block";
+    document.getElementById("img_vent").setAttribute("src", "medios/img/perder.jpg");
+    ganado.innerText = ganado.innerText + " " + dinero_ganado;
 }
 
 
 //Cambio y corrección de las preguntas del juego
 //Además, por cada pregunta correcta se acumula una recompenza
-cambiar_pregunta(preguntas[nivel].p,preguntas[nivel].op());
+cambiar_pregunta(preguntas[nivel].p, preguntas[nivel].op());
 
-for (let i=0;i<respuestas.length;i++){
-    resp[i].onclick=() =>{
-        if (respuestas[i].innerText==preguntas[nivel].resp){
-            
-                                 
-            identificacion="resp_correcta";
+for (let i = 0; i < respuestas.length; i++) {
+    resp[i].onclick = () => {
+        if (respuestas[i].innerText == preguntas[nivel].resp) {
+            //console.log(preguntas[nivel].p, preguntas[nivel].resp, nivel);
+            respuestasCorrectas.preguntas.push({
+                nivel: nivel + 1,
+                pregunta: preguntas[nivel].p,
+                respuesta: preguntas[nivel].resp,
+                aprueba: 1
+            });
+            identificacion = "resp_correcta";
             if (sonar) m_correcto.play();
             nivel++;
-            pasaste.innerText="Pasaste al nivel:"+ (nivel+1);
+            pasaste.innerText = "Pasaste al nivel:" + (nivel + 1);
             aparecer_ventana();
-            recompenza=recompenza+ 10000*(nivel);
-            
-            
-            if(nivel> preguntas.length-1){
-                dinero_ganado=recompenza;
+            recompenza = recompenza + 10000 * (nivel);
+            if (nivel > preguntas.length - 1) {
+                dinero_ganado = recompenza;
                 felicidades();
-                
-                
-            }else{
-                
-                
-                if((nivel)%5==0){
-                    dinero_ganado=recompenza;//cada vez supera un nivel (5preguntas)
-                    dinero.innerText=dinero_ganado;
-                                    
+            } else {
+                if ((nivel) % 5 == 0) {
+                    dinero_ganado = recompenza;//cada vez supera un nivel (5preguntas)
+                    dinero.innerText = dinero_ganado;
+
                 }
             }
-            
-
-        }else perder();
-            
-            
-            
-        
-    
+        }
+        else {
+            respuestasCorrectas.preguntas.push({
+                nivel: nivel + 1,
+                pregunta: preguntas[nivel].p,
+                respuesta: preguntas[nivel].resp,
+                aprueba: 0
+            });
+            perder()
+        };
     }
 }
 
 
-cont_comodin.addEventListener("click",(e)=>{
-    
-    if(e.target.classList.contains("comodines")){
-        
-        e.target.style.backgroundColor="gray";
+cont_comodin.addEventListener("click", (e) => {
+
+    if (e.target.classList.contains("comodines")) {
+        e.target.style.backgroundColor = "gray";
     }
 
-    if(amigo==false & e.target.classList.contains("icon-phone")){
-        amigo=true;
-        identificacion="llamar";
+    if (amigo == false & e.target.classList.contains("icon-phone")) {
+        amigo = true;
+        identificacion = "llamar";
         aparecer_ventana();
-        document.getElementById("correcto").innerText= preguntas[nivel].resp;
-    } else if(publico==false & e.target.classList.contains("icon-users")){
-        publico=true;
-        identificacion="audiencia";
+        document.getElementById("correcto").innerText = preguntas[nivel].resp;
+    } else if (publico == false & e.target.classList.contains("icon-users")) {
+        publico = true;
+        identificacion = "audiencia";
         aparecer_ventana();
-        for (var i=0;i<4;i++) {
+        for (var i = 0; i < 4; i++) {
 
-            if(respuestas[i].innerText==preguntas[nivel].resp) barra[i].value="70";
-            
-        } 
+            if (respuestas[i].innerText == preguntas[nivel].resp) barra[i].value = "70";
 
-    }else if(mitad==false & e.target.classList.contains("mitad")){
-        mitad=true;
-        let aux1=0;
-        for (var i=0;i<4 & aux1<2;i++) {
-            
-            if(respuestas[i].innerText!=preguntas[nivel].resp){
+        }
+
+    } else if (mitad == false & e.target.classList.contains("mitad")) {
+        mitad = true;
+        let aux1 = 0;
+        for (var i = 0; i < 4 & aux1 < 2; i++) {
+
+            if (respuestas[i].innerText != preguntas[nivel].resp) {
                 aux1++;
-                respuestas[i].innerText="";
-            } 
-            
-        } 
-
-        
+                respuestas[i].innerText = "";
+            }
+        }
     }
-
-    
-    
-        
 });
 
-
-
 //Botones para rendirse o terminar el juego
-rendirse.onclick=()=>{
-    ventana2.style.transform="scale(1)";
-    ganado.innerText=ganado.innerText + " " + dinero_ganado;
+rendirse.onclick = () => {
+    ventana2.style.transform = "scale(1)";
+    ganado.innerText = ganado.innerText + " " + dinero_ganado;
 }
 
-terminar.onclick=()=>{ //Una vez termina el juego se recarga la pagina y vuelve al inicio
+
+/*terminar.onclick = () => { //Una vez termina el juego se recarga la pagina y vuelve al inicio
     //location.reload();
-    window.location.href = "../index.html";
-
-}
-
-
-
-
-
+    console.log(respuestasCorrectas);
+    guardarRespuestas(respuestasCorrectas);
+    //window.location.href = "../index.html";
+}*/

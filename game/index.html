@@ -96,22 +96,22 @@
                     </div>
                     <div class="respuestas">
                         <div class="resp_borde">
-                            <div class="resp"><span>A- </span>
+                            <div class="resp"><span>A)&nbsp;</span>
                                 <p class="respuesta"></p>
                             </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>B- </span>
+                            <div class="resp"><span>B)&nbsp;</span>
                                 <p class="respuesta"></p>
                             </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>C- </span>
+                            <div class="resp"><span>C)&nbsp;</span>
                                 <p class="respuesta"></p>
                             </div>
                         </div>
                         <div class="resp_borde">
-                            <div class="resp"><span>D- </span>
+                            <div class="resp"><span>D)&nbsp;</span>
                                 <p class="respuesta"></p>
                             </div>
                         </div>
@@ -139,6 +139,45 @@
             // Hacer algo con los datos recuperados
         });
 
+    </script>
+
+    <script type="module">
+
+        // Importar módulos de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+        // Configuración de Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkZC_v6UiPHeZ1FmTNsaFqMlahedK4ezA",
+            authDomain: "diplomado-956d0.firebaseapp.com",
+            projectId: "diplomado-956d0",
+            storageBucket: "diplomado-956d0.appspot.com",
+            messagingSenderId: "124943503518",
+            appId: "1:124943503518:web:7fffc37563641c1e83ab8f",
+            measurementId: "G-PGZ4P7JX9L"
+        };
+
+        // Inicializar la aplicación de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore();
+
+        // Función para guardar las respuestas correctas en Firestore
+        async function guardarRespuestas(respuestasCorrectas) {
+            try {
+                const docRef = await addDoc(collection(db, "participacion"), respuestasCorrectas);
+                console.log("RespuestasCorrectas guardadas con ID: ", docRef.id);
+            } catch (e) {
+                console.error("Error al guardar las respuestasCorrectas: ", e);
+            }
+        }
+
+        terminar.onclick = async () => { //Una vez termina el juego se recarga la pagina y vuelve al inicio
+            //location.reload();
+            console.log(respuestasCorrectas);
+            await guardarRespuestas(respuestasCorrectas);
+            window.location.href = "../index.html";
+        }
     </script>
 
     <script src="js/variable.js"></script>
