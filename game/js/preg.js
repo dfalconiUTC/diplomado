@@ -154,7 +154,7 @@ for (let i = 0; i < respuestas.length; i++) {
             respuestasCorrectas.preguntas.push({
                 nivel: nivel + 1,
                 pregunta: preguntas[nivel].p,
-                respuesta: preguntas[nivel].resp,
+                respuesta: respuestas[i].innerText,
                 aprueba: 0
             });
             perder()

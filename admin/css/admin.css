@@ -26,3 +26,19 @@
 .card-body img {
     transition: opacity 0.2s ease-in-out;
 }
+
+.aprobado {
+    color: green;
+}
+
+.reprobado {
+    color: red;
+}
+
+.icono-visto {
+    color: green;
+}
+
+.icono-x {
+    color: red;
+}

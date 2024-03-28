@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Informe de Resultados</title>
+    <link rel="stylesheet" href="admin/css/styles.css">
+    <link rel="stylesheet" href="admin/css/admin.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-custom">
+        <div class="container">
+            <a class="navbar-brand" href="#"><img src="admin/img/Logo_UTC_Azul.png" alt="UTC Game Logo" width="150"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <!-- Opción de menú -->
+                        <a class="nav-link" href="#" id="logout">Cerrar sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br>
+    <center>
+        <h5><span class="nav-link">Informe de Resultados</span></h5>
+    </center>
+    <div class="container mt-5">
+        <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Apodo</th>
+                        <th>Nivel</th>
+                        <th>Aprobación</th>
+                        <th>Detalles</th>
+                    </tr>
+                </thead>
+                <tbody id="resultados-body">
+                    <!-- Aquí se mostrarán los resultados -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal para detalles -->
+    <div class="modal fade" id="detallesModal" tabindex="-1" role="dialog" aria-labelledby="detallesModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detallesModalLabel">Detalles de Participación</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="modalBodyContent">
+                    <!-- Contenido del modal (preguntas y respuestas) -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase JavaScript SDK -->
+    <!-- Firebase Config -->
+    <script>
+
+        function mostrarDetalles(id) {
+            const detalle = document.getElementById(`detalle-${id}`);
+            if (detalle.style.display === 'none') {
+                detalle.style.display = 'block';
+            } else {
+                detalle.style.display = 'none';
+            }
+        }
+    </script>
+
+    <script type="module">
+        // Importa el módulo de autenticación de Firebase
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { getFirestore, collection, getDocs, query, where } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCkZC_v6UiPHeZ1FmTNsaFqMlahedK4ezA",
+            authDomain: "diplomado-956d0.firebaseapp.com",
+            projectId: "diplomado-956d0",
+            storageBucket: "diplomado-956d0.appspot.com",
+            messagingSenderId: "124943503518",
+            appId: "1:124943503518:web:7fffc37563641c1e83ab8f",
+            measurementId: "G-PGZ4P7JX9L"
+        };
+
+        // Inicializar la aplicación de Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore();
+
+        
+
+        // Cuando la página se carga completamente
+        document.addEventListener("DOMContentLoaded", () => {
+            // Escucha los cambios de estado de autenticación
+            onAuthStateChanged(getAuth(), (user) => {
+                if (user) {
+                    // Si el usuario está autenticado
+                    // Mostrar la información del usuario
+                    //document.getElementById("userName").innerText = user.displayName || "N/A";
+
+                    // Agregar evento de clic al enlace de cerrar sesión
+                    document.getElementById("logout").addEventListener("click", () => {
+                        // Cerrar sesión
+                        getAuth().signOut().then(() => {
+                            // Redirigir a la página principal después de cerrar sesión
+                            window.location.href = "index.html";
+                        }).catch((error) => {
+                            console.error("Error al cerrar sesión:", error);
+                        });
+                    });
+                } else {
+                    // Si el usuario no está autenticado, redirigir al inicio de sesión
+                    window.location.href = "index.html";
+                }
+            });
+        });
+
+        // Función para extraer el parámetro de la URL
+        function getParameterByName(name, url) {
+            if (!url) url = window.location.href;
+            name = name.replace(/[\[\]]/g, '\\$&');
+            const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),
+                results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, ' '));
+        }
+
+        async function obtenerPreguntas(codigoJuego) {
+            const preguntasCollection = collection(db, "participacion");
+            const q = query(preguntasCollection, where("codigoJuego", "==", codigoJuego));
+            const preguntasSnapshot = await getDocs(q);
+            const preguntas = [];
+            preguntasSnapshot.forEach((doc) => {
+                preguntas.push(doc.data());
+            });
+            console.log(preguntas);
+            return preguntas;
+        }
+
+        // Obtener el código de lección de la URL
+        const codigoLeccion = getParameterByName('code');
+        if (codigoLeccion) {
+            const preguntas = await obtenerPreguntas(codigoLeccion);
+
+            const resultadosContainer = document.getElementById('resultados-container');
+            let i = 0;
+            preguntas.forEach(data => {
+                const preg = JSON.stringify(data);
+                data.id = i;
+                const resultadoHTML = `
+                    <tr>
+                        <td>${data.nombre}</td>
+                        <td>${data.apodo}</td>
+                        <td>${data.preguntas ? data.preguntas.length - 1 : 0}</td>
+                        <td class="${data.aprueba ? 'aprobado' : 'reprobado'}">${data.aprueba ? 'Ganó' : 'Perdió'}</td>
+                        <td><button class="btn btn-primary" onclick="mostrarDetalles(${i})">Ver Detalles</button></td>
+                    </tr>
+                    <tr id="detalle-${i}" style="display: none;">
+                        <td colspan="5">
+                            <!-- Aquí van los detalles -->
+                            ${renderDetalles(data)}
+                        </td>
+                    </tr>
+                `;
+                document.getElementById('resultados-body').insertAdjacentHTML('beforeend', resultadoHTML);
+                i++;
+            });
+        } else {
+            console.error('No se proporcionó el código de lección en la URL.');
+        }
+
+        function renderDetalles(data) {
+            let detallesHTML = '<ul>';
+            if (data && data.preguntas) {
+                data.preguntas.forEach((pregunta, index) => {
+                    detallesHTML += `<li><strong>Pregunta ${index + 1}:</strong> ${pregunta.pregunta}</li>`;
+                    detallesHTML += `<strong>Respuesta:</strong> ${pregunta.respuesta}`;
+                    detallesHTML += pregunta.aprueba ? ` <i class="fas fa-check-circle icono-visto"></i>` : ` <i class="fas fa-times-circle icono-x"></i>`;
+                });
+            } else {
+                detallesHTML += '<li>No hay preguntas y respuestas disponibles.</li>';
+            }
+            detallesHTML += '</ul>';
+            return detallesHTML;
+        }
+
+
+    </script>
+</body>
+
+</html>
